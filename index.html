@@ -88,7 +88,102 @@ footer strong{color:#fff}
   .grid-3,.schedule{grid-template-columns:1fr}
   .updates{grid-template-columns:1fr}
 }
-</style>
+</style>/* =========================
+   BAKWADI KARATE POS
+========================= */
+
+.pos-wrap {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 25px;
+  align-items: start;
+}
+
+.pos-box,
+.receipt-box {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #fff;
+  padding: 28px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.04);
+}
+
+.pos-items {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  margin-bottom: 20px;
+}
+
+.pos-item {
+  display: grid;
+  grid-template-columns: 1fr 130px 70px;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 10px;
+}
+
+.pos-item label {
+  margin: 0;
+}
+
+.pos-price {
+  font-weight: 900;
+  color: var(--red);
+}
+
+.pos-total {
+  font-size: 1.7rem;
+  font-weight: 900;
+  text-align: right;
+  margin: 20px 0;
+}
+
+.receipt {
+  background: #111114;
+  color: #fff;
+  border-radius: 14px;
+  padding: 22px;
+  margin-top: 15px;
+  min-height: 260px;
+}
+
+.receipt-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 7px 0;
+  border-bottom: 1px dashed #555;
+}
+
+.receipt-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-weight: 900;
+  margin-top: 15px;
+}
+
+.pos-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+@media (max-width: 800px) {
+
+  .pos-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .pos-item {
+    grid-template-columns: 1fr 110px 60px;
+  }
+
+}
 </head>
 <body>
 
@@ -240,7 +335,7 @@ footer strong{color:#fff}
     </form>
   </div>
 </section>
-
+<a href="#pos">POS</a>
 <section class="cta">
   <div class="container">
     <h2>Ready to start training?</h2>
@@ -252,7 +347,201 @@ footer strong{color:#fff}
   </div>
 </section>
 </main>
+<!-- BAKWADI KARATE ACADEMY POS -->
+<section class="section alt" id="pos">
+  <div class="container">
 
+    <div class="section-head">
+      <div class="eyebrow">Academy POS</div>
+      <h2>Payments & Registration POS</h2>
+      <p>Create a payment receipt and send a copy to Bakwadi Karate Academy through WhatsApp.</p>
+    </div>
+
+    <div class="pos-wrap">
+
+      <!-- POS FORM -->
+      <div class="pos-box">
+
+        <h3>New Payment</h3>
+
+        <label for="posCustomer">Student / Customer Name</label>
+        <input id="posCustomer" type="text" placeholder="Enter name">
+
+        <div class="pos-items">
+
+          <!-- REGISTRATION -->
+          <div class="pos-item">
+            <label>
+              <input
+                type="checkbox"
+                class="pos-check"
+                data-name="Registration Fee"
+                data-price="500"
+              >
+              Registration Fee
+            </label>
+
+            <span class="pos-price">P500</span>
+
+            <input
+              type="number"
+              class="pos-qty"
+              min="1"
+              value="1"
+              disabled
+            >
+          </div>
+
+          <!-- TOURNAMENT -->
+          <div class="pos-item">
+
+            <label>
+              <input
+                type="checkbox"
+                class="pos-check"
+                data-name="Tournament Fee"
+                data-price="0"
+              >
+              Tournament Fee
+            </label>
+
+            <input
+              type="number"
+              class="pos-custom"
+              min="0"
+              step="1"
+              value="0"
+              placeholder="Pula"
+            >
+
+            <input
+              type="number"
+              class="pos-qty"
+              min="1"
+              value="1"
+              disabled
+            >
+
+          </div>
+
+          <!-- EQUIPMENT + LICENCE -->
+          <div class="pos-item">
+
+            <label>
+              <input
+                type="checkbox"
+                class="pos-check"
+                data-name="Karate Equipment & Licence Books"
+                data-price="500"
+              >
+              Karate Equipment & Licence Books
+            </label>
+
+            <span class="pos-price">P500</span>
+
+            <input
+              type="number"
+              class="pos-qty"
+              min="1"
+              value="1"
+              disabled
+            >
+
+          </div>
+
+        </div>
+
+        <label for="posPayment">Payment Method</label>
+
+        <select id="posPayment">
+          <option>Cash</option>
+          <option>Orange Money</option>
+          <option>Bank Transfer</option>
+          <option>PayPal</option>
+          <option>Other</option>
+        </select>
+
+        <label for="posNote">Payment Note / Reference</label>
+
+        <input
+          id="posNote"
+          type="text"
+          placeholder="Optional payment reference"
+        >
+
+        <div class="pos-total">
+          Total: <span id="posTotal">P0</span>
+        </div>
+
+        <div class="pos-actions">
+
+          <button
+            class="btn btn-red"
+            type="button"
+            onclick="generateReceipt()"
+          >
+            Generate Receipt
+          </button>
+
+          <button
+            class="btn"
+            type="button"
+            onclick="clearPOS()"
+          >
+            Clear
+          </button>
+
+        </div>
+
+        <div
+          class="notice"
+          id="posNotice"
+          style="display:none"
+        ></div>
+
+      </div>
+
+
+      <!-- RECEIPT -->
+      <div class="receipt-box">
+
+        <h3>Payment Receipt</h3>
+
+        <div
+          class="receipt"
+          id="receipt"
+        >
+          <p style="color:#bbb">
+            Select a payment and click Generate Receipt.
+          </p>
+        </div>
+
+        <div class="pos-actions">
+
+          <button
+            class="btn btn-outline"
+            type="button"
+            onclick="printReceipt()"
+          >
+            Print Receipt
+          </button>
+
+          <button
+            class="btn btn-red"
+            type="button"
+            onclick="sendReceiptWhatsApp()"
+          >
+            Send Receipt to WhatsApp
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
 <footer>
   <div class="container">
     <strong>Bakwadi Karate Academy</strong><br>
@@ -278,6 +567,643 @@ document.getElementById('registrationForm').addEventListener('submit', function(
   document.getElementById('notice').style.display='block';
   window.open(whatsappUrl, '_blank');
 });
-</script>
+</script>/* ==========================================
+   BAKWADI KARATE ACADEMY POS SYSTEM
+   WhatsApp: +267 77855138
+========================================== */
+
+let lastReceipt = null;
+
+
+/* ------------------------------------------
+   CHECKBOX / QUANTITY CONTROL
+------------------------------------------ */
+
+document.querySelectorAll(".pos-check").forEach(function(check) {
+
+  check.addEventListener("change", function() {
+
+    const item = check.closest(".pos-item");
+    const qty = item.querySelector(".pos-qty");
+
+    qty.disabled = !check.checked;
+
+    updatePOSTotal();
+
+  });
+
+});
+
+
+/* ------------------------------------------
+   UPDATE TOTAL
+------------------------------------------ */
+
+document.querySelectorAll(".pos-qty, .pos-custom").forEach(function(input) {
+
+  input.addEventListener("input", updatePOSTotal);
+
+});
+
+
+function getPOSItems() {
+
+  const items = [];
+
+  document.querySelectorAll(".pos-check").forEach(function(check) {
+
+    if (!check.checked) return;
+
+    const item = check.closest(".pos-item");
+
+    const qtyInput = item.querySelector(".pos-qty");
+    const customInput = item.querySelector(".pos-custom");
+
+    let price = Number(check.dataset.price || 0);
+
+    // Tournament fee has a custom price
+    if (customInput) {
+      price = Number(customInput.value || 0);
+    }
+
+    const qty = Number(qtyInput.value || 1);
+
+    items.push({
+      name: check.dataset.name,
+      price: price,
+      qty: qty,
+      subtotal: price * qty
+    });
+
+  });
+
+  return items;
+
+}
+
+
+function updatePOSTotal() {
+
+  const items = getPOSItems();
+
+  const total = items.reduce(function(sum, item) {
+    return sum + item.subtotal;
+  }, 0);
+
+  document.getElementById("posTotal").textContent =
+    "P" + total.toLocaleString("en-BW");
+
+  return total;
+
+}
+
+
+/* ------------------------------------------
+   GENERATE RECEIPT
+------------------------------------------ */
+
+function generateReceipt() {
+
+  const customer =
+    document.getElementById("posCustomer").value.trim();
+
+  if (!customer) {
+
+    alert("Please enter the student/customer name.");
+
+    return;
+
+  }
+
+  const items = getPOSItems();
+
+  if (items.length === 0) {
+
+    alert("Please select at least one payment.");
+
+    return;
+
+  }
+
+  const total = updatePOSTotal();
+
+  const payment =
+    document.getElementById("posPayment").value;
+
+  const note =
+    document.getElementById("posNote").value.trim();
+
+  const receiptNumber =
+    "BKA-" +
+    Math.floor(
+      10000000 + Math.random() * 90000000
+    );
+
+  const date =
+    new Date().toLocaleString("en-BW", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
+
+
+  lastReceipt = {
+
+    number: receiptNumber,
+
+    customer: customer,
+
+    items: items,
+
+    total: total,
+
+    payment: payment,
+
+    note: note,
+
+    date: date
+
+  };
+
+
+  // Save latest receipt in browser
+  localStorage.setItem(
+    "bkaLastReceipt",
+    JSON.stringify(lastReceipt)
+  );
+
+
+  let html = "";
+
+  html += `
+    <div style="text-align:center;margin-bottom:15px">
+      <h2 style="margin:0">
+        BAKWADI KARATE ACADEMY
+      </h2>
+
+      <div style="color:#bbb;margin-top:5px">
+        Contact: 77855138
+      </div>
+
+      <div style="color:#bbb">
+        Payment Receipt
+      </div>
+    </div>
+  `;
+
+
+  html += `
+    <div class="receipt-line">
+      <span>Receipt</span>
+      <strong>${escapeHTML(receiptNumber)}</strong>
+    </div>
+  `;
+
+
+  html += `
+    <div class="receipt-line">
+      <span>Student</span>
+      <strong>${escapeHTML(customer)}</strong>
+    </div>
+  `;
+
+
+  html += `
+    <div class="receipt-line">
+      <span>Date</span>
+      <span>${escapeHTML(date)}</span>
+    </div>
+  `;
+
+
+  items.forEach(function(item) {
+
+    html += `
+      <div class="receipt-line">
+        <span>
+          ${escapeHTML(item.name)}
+          × ${item.qty}
+        </span>
+
+        <strong>
+          P${item.subtotal.toLocaleString("en-BW")}
+        </strong>
+      </div>
+    `;
+
+  });
+
+
+  html += `
+    <div class="receipt-total">
+      <span>TOTAL</span>
+      <span>P${total.toLocaleString("en-BW")}</span>
+    </div>
+  `;
+
+
+  html += `
+    <div style="margin-top:15px;color:#ddd">
+      Payment: ${escapeHTML(payment)}
+    </div>
+  `;
+
+
+  if (note) {
+
+    html += `
+      <div style="margin-top:8px;color:#bbb">
+        Reference: ${escapeHTML(note)}
+      </div>
+    `;
+
+  }
+
+
+  html += `
+    <div style="
+      margin-top:20px;
+      padding-top:12px;
+      border-top:1px solid #444;
+      text-align:center;
+      color:#bbb;
+    ">
+      Bakwadi Karate Academy<br>
+      Contact: 77855138
+    </div>
+  `;
+
+
+  document.getElementById("receipt").innerHTML = html;
+
+
+  const notice =
+    document.getElementById("posNotice");
+
+  notice.textContent =
+    "Receipt created successfully. You can now send a copy to WhatsApp.";
+
+  notice.style.display = "block";
+
+}
+
+
+/* ------------------------------------------
+   SEND RECEIPT TO WHATSAPP
+------------------------------------------ */
+
+function sendReceiptWhatsApp() {
+
+  if (!lastReceipt) {
+
+    alert(
+      "Please generate a receipt first."
+    );
+
+    return;
+
+  }
+
+
+  let message = "";
+
+  message +=
+    "🥋 BAKWADI KARATE ACADEMY\n";
+
+  message +=
+    "PAYMENT RECEIPT COPY\n";
+
+  message +=
+    "━━━━━━━━━━━━━━━━━━\n";
+
+  message +=
+    "Receipt: " +
+    lastReceipt.number +
+    "\n";
+
+  message +=
+    "Student: " +
+    lastReceipt.customer +
+    "\n";
+
+  message +=
+    "Date: " +
+    lastReceipt.date +
+    "\n\n";
+
+
+  message += "PAYMENTS:\n";
+
+
+  lastReceipt.items.forEach(function(item) {
+
+    message +=
+      "• " +
+      item.name +
+      " x" +
+      item.qty +
+      " — P" +
+      item.subtotal.toLocaleString("en-BW") +
+      "\n";
+
+  });
+
+
+  message += "\n";
+
+  message +=
+    "TOTAL: P" +
+    lastReceipt.total.toLocaleString("en-BW") +
+    "\n";
+
+  message +=
+    "Payment: " +
+    lastReceipt.payment +
+    "\n";
+
+
+  if (lastReceipt.note) {
+
+    message +=
+      "Reference: " +
+      lastReceipt.note +
+      "\n";
+
+  }
+
+
+  message += "\n";
+
+  message +=
+    "Bakwadi Karate Academy\n";
+
+  message +=
+    "Contact: 77855138";
+
+
+  const whatsappURL =
+    "https://wa.me/26777855138?text=" +
+    encodeURIComponent(message);
+
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+}
+
+
+/* ------------------------------------------
+   CONNECT REGISTRATION TO POS RECEIPT
+------------------------------------------ */
+
+function getLatestPOSReceiptMessage() {
+
+  const saved =
+    localStorage.getItem("bkaLastReceipt");
+
+  if (!saved) {
+
+    return "";
+
+  }
+
+
+  try {
+
+    const receipt =
+      JSON.parse(saved);
+
+    let message =
+      "\n\n💳 PAYMENT / RECEIPT COPY\n";
+
+    message +=
+      "Receipt: " +
+      receipt.number +
+      "\n";
+
+    message +=
+      "Student: " +
+      receipt.customer +
+      "\n";
+
+
+    receipt.items.forEach(function(item) {
+
+      message +=
+        "• " +
+        item.name +
+        " x" +
+        item.qty +
+        " — P" +
+        item.subtotal.toLocaleString("en-BW") +
+        "\n";
+
+    });
+
+
+    message +=
+      "TOTAL: P" +
+      receipt.total.toLocaleString("en-BW") +
+      "\n";
+
+    message +=
+      "Payment: " +
+      receipt.payment +
+      "\n";
+
+    message +=
+      "Receipt date: " +
+      receipt.date;
+
+
+    return message;
+
+  } catch (error) {
+
+    return "";
+
+  }
+
+}
+
+
+/* ------------------------------------------
+   CLEAR POS
+------------------------------------------ */
+
+function clearPOS() {
+
+  document.getElementById("posCustomer").value = "";
+
+  document.getElementById("posPayment").value = "Cash";
+
+  document.getElementById("posNote").value = "";
+
+  document.querySelectorAll(".pos-check")
+    .forEach(function(check) {
+
+      check.checked = false;
+
+    });
+
+
+  document.querySelectorAll(".pos-qty")
+    .forEach(function(qty) {
+
+      qty.value = 1;
+      qty.disabled = true;
+
+    });
+
+
+  document.querySelectorAll(".pos-custom")
+    .forEach(function(input) {
+
+      input.value = 0;
+
+    });
+
+
+  document.getElementById("receipt").innerHTML = `
+    <p style="color:#bbb">
+      Select a payment and click Generate Receipt.
+    </p>
+  `;
+
+
+  document.getElementById("posTotal").textContent =
+    "P0";
+
+
+  document.getElementById("posNotice").style.display =
+    "none";
+
+
+  lastReceipt = null;
+
+}
+
+
+/* ------------------------------------------
+   PRINT RECEIPT
+------------------------------------------ */
+
+function printReceipt() {
+
+  if (!lastReceipt) {
+
+    alert(
+      "Please generate a receipt first."
+    );
+
+    return;
+
+  }
+
+
+  const receiptHTML =
+    document.getElementById("receipt").innerHTML;
+
+
+  const printWindow =
+    window.open("", "_blank");
+
+
+  printWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>
+        Bakwadi Karate Academy Receipt
+      </title>
+
+      <style>
+
+        body {
+          font-family: Arial, sans-serif;
+          padding: 30px;
+          max-width: 500px;
+          margin: auto;
+        }
+
+        .receipt {
+          background: white;
+          color: black;
+        }
+
+        .receipt-line {
+          display:flex;
+          justify-content:space-between;
+          padding:8px 0;
+          border-bottom:1px dashed #999;
+        }
+
+        .receipt-total {
+          display:flex;
+          justify-content:space-between;
+          font-size:20px;
+          font-weight:bold;
+          margin-top:20px;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      ${receiptHTML}
+
+      <script>
+
+        window.onload = function() {
+          window.print();
+        };
+
+      <\/script>
+
+    </body>
+
+    </html>
+
+  `);
+
+
+  printWindow.document.close();
+
+}
+
+
+/* ------------------------------------------
+   SECURITY
+------------------------------------------ */
+
+function escapeHTML(value) {
+
+  return String(value)
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* ------------------------------------------
+   INITIAL TOTAL
+------------------------------------------ */
+
+updatePOSTotal();
 </body>
 </html>
